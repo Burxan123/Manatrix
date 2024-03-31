@@ -5,12 +5,10 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from 'url';
-import Pdfroutes from './routes/pdfroutes.js'
-
-
+import { fileURLToPath } from "url";
+import Pdfroutes from "./routes/pdfroutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,76 +24,103 @@ myapp.use(morgan("common"));
 myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
 myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 myapp.use(cors());
-myapp.use('/pdfler', Pdfroutes);
-
+myapp.use("/pdfler", Pdfroutes);
 
 // Dosya yolu
-const pdfDirectory = path.join(__dirname, 'pdfs');
+const pdfDirectory = path.join(__dirname, "pdfs");
 
 myapp.get("/", (req, res) => res.send("Welcome to Elmir Sultan's project"));
-myapp.use(function(err, req, res, next) {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
+myapp.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
 
-myapp.post('/sendPDF', async (req, res) => {
-    const { email, category } = req.body;
+myapp.post("/sendPDF", async (req, res) => {
+  const { email, category,name,surname } = req.body;
 
-    let pdfFiles = [];
-    switch (category) {
-      case 'Milyon Dollarlıq Məsləhət':
-        pdfFiles = ['Business.pdf']; // Kategori 1'in PDF dosyası
+  let pdfFiles = [];
+  switch (category) {
+    case "Million Dollar":
+      pdfFiles = ["Million Dollar.pdf"]; // Kategori 1'in PDF dosyası
+      break;
+    case "What is E-Commerce":
+      pdfFiles = ["What is E-Commerce.pdf"]; // Kategori 2'nin PDF dosyası
+      break;
+    case "10 Golden Rules":
+      pdfFiles = ["10 Golden Rules.pdf"]; // Kategori 3'ün PDF dosyası
+      break;
+      case "Marketing":
+        pdfFiles = ["Marketing.pdf"]; // Kategori 3'ün PDF dosyası
         break;
-      case 'E-Commerce Nədir':
-        pdfFiles = ['E-Commerce.pdf']; // Kategori 2'nin PDF dosyası
-        break;
-      case 'Sahibkarlar Üçün 10 Qızıl Qayda':
-        pdfFiles = ['Sahibkar.pdf']; // Kategori 3'ün PDF dosyası
-        break;
-      default:
-        return res.status(400).json({ message: 'Geçersiz kategori' });
-    }
-   
-    try {
-        await sendEmail(email, category, pdfFiles);
-        res.send('PDF gönderildi');
-    } catch (error) {
-        console.error('Email gönderilirken hata oluştu:', error);
-        res.status(500).send('PDF gönderilirken bir hata oluştu');
+      
+    default:
+      return res.status(400).json({ message: "Geçersiz kategori" });
+  }
+
+  try {
+    await sendEmail(email, category, pdfFiles,name,surname);
+    res.send("PDF gönderildi");
+  } catch (error) {
+    console.error("Email gönderilirken hata oluştu:", error);
+    res.status(500).send("PDF gönderilirken bir hata oluştu");
+  }
+});
+
+async function sendEmail(email, category, pdfFiles,name,surname) {
+  
+  const transporter = nodemailer.createTransport({
+    host: 'bamboo.hostns.io',
+    port: 465,
+    secure: true, // SSL kullanılarak güvenli bağlantı sağlanıyor
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS // E-posta hesabının şifresi buraya yazılmalı
     }
 });
 
-async function sendEmail(email, category, pdfFiles) {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_PASS
-        }
-    });
+// Gönderilecek e-postanın detayları
 
-    const attachments = pdfFiles.map(file => ({
-        filename: file,
-        path: path.join(pdfDirectory, file)
-    }));
 
-    const mailOptions = {
-        from: 'hesenliburxan@gmail.com',
-        to: email,
-        subject: `PDF for ${category} category`,
-        text: `Attached is the PDF for ${category} category.`,
-        attachments: attachments
-    };
+  const attachments = pdfFiles.map((file) => ({
+    filename: file,
+    path: path.join(pdfDirectory, file),
+  }));
 
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent: ' + info.response);
-    } catch (error) {
-        console.error('Email gönderilirken hata oluştu:', error);
-        throw error;
-    }
+  const mailOptions = {
+    from:'Manatrix <info@manatrixacademy.com>',
+    to: email,
+    subject: `Özəl Hədiyyə`,
+    html: `
+            <div>
+        
+          <div style="text-align:center; margin-bottom: 30px;">
+           
+            <img src="https://res.cloudinary.com/dxhdjso8d/image/upload/v1711643214/logo_soonpd.png" alt="MANATRIX LOGO" style="width:200px; height:200px; margin: 0 auto; display:block;">
+            <h3 style="text-align: center;">Təşəkkürlər!</h3>
+            <p style="text-align: center; margin-bottom:20px;">Qeydiyyatınız uğurla tamamlandı! Aşağıya keçib sifarişinizi götürə bilərsiz. Daha çoxu üçün "Keçid et" düyməsinə klikləyib Manatrix-ə qayıda bilərsiz.</p>
+            <a href="https://manatrixacademy.com" style="font-size: 16px; font-weight: 600;padding: 10px; border-radius: 5px; background-color: #D09626; color: white; text-decoration: none; text-align:center;">Keçid et</a>
+           </div>
+           <b>Salam ${name} ${surname},</b>
+           <p>Sifarişin üçün təşəkkür edirik.
+        
+           Sənə gələcəyin üçün lazım olan ən önəmli fundamental bilikləri təqdim edirik. 
+           Sualın olarsa, bu ünvana cavab yazmaqdan çəkinmə. 
+           </p>
+           <b>Hörmətlə, <br> Manatrix Komandası</b>
+          </div>
+          
+        `,
+    attachments: attachments,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info.response);
+  } catch (error) {
+    console.error("Email gönderilirken hata oluştu:", error);
+    throw error;
+  }
 }
-
 
 const PORT = process.env.PORT || 4505;
 mongoose
@@ -104,10 +129,3 @@ mongoose
     myapp.listen(PORT, () => console.log(`Server ${PORT} portunda çalışıyor.`));
   })
   .catch((error) => console.log(`${error} expected`));
-
-
-
-
-
-
-
