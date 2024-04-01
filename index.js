@@ -40,16 +40,16 @@ myapp.post("/sendPDF", async (req, res) => {
 
   let pdfFiles = [];
   switch (category) {
-    case "Million Dollar":
+    case "Milyon Dollarlıq Məsləhət":
       pdfFiles = ["Million Dollar.pdf"]; // Kategori 1'in PDF dosyası
       break;
-    case "What is E-Commerce":
+    case "E-Commerce Nədir?":
       pdfFiles = ["What is E-Commerce.pdf"]; // Kategori 2'nin PDF dosyası
       break;
-    case "10 Golden Rules":
+    case "Sahibkarlar üçün 10 Qızıl Qayda":
       pdfFiles = ["10 Golden Rules.pdf"]; // Kategori 3'ün PDF dosyası
       break;
-      case "Marketing":
+      case "Həyatda Ən Lazımlı Bacarıq":
         pdfFiles = ["Marketing.pdf"]; // Kategori 3'ün PDF dosyası
         break;
       
