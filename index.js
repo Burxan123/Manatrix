@@ -44,13 +44,13 @@ myapp.post("/sendPDF", async (req, res) => {
       pdfFiles = ["Million Dollar.pdf"]; // Kategori 1'in PDF dosyası
       break;
     case "E-Commerce Nədir?":
-      pdfFiles = ["What is E-Commerce.pdf"]; // Kategori 2'nin PDF dosyası
+      pdfFiles = ["E-Commerce Nədir?.pdf"]; // Kategori 2'nin PDF dosyası
       break;
     case "Sahibkarlar üçün 10 Qızıl Qayda":
-      pdfFiles = ["10 Golden Rules.pdf"]; // Kategori 3'ün PDF dosyası
+      pdfFiles = ["Sahibkarlar üçün 10 Qızıl Qayda.pdf"]; // Kategori 3'ün PDF dosyası
       break;
       case "Həyatda Ən Lazımlı Bacarıq":
-        pdfFiles = ["Marketing.pdf"]; // Kategori 3'ün PDF dosyası
+        pdfFiles = ["Həyatda Ən Lazımlı Bacarıq.pdf"]; // Kategori 3'ün PDF dosyası
         break;
       
     default:
