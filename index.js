@@ -43,7 +43,7 @@ myapp.post("/sendPDF", async (req, res) => {
     case "Milyon Dollarlıq Məsləhət":
       pdfFiles = ["Milyon Dollarlıq Məsləhət.pdf"]; // Kategori 1'in PDF dosyası
       break;
-    case "E-Commerce Nədir":
+    case "E-Commerce Nədir?":
       pdfFiles = ["E-Commerce Nədir.pdf"]; // Kategori 2'nin PDF dosyası
       break;
     case "Sahibkarlar üçün 10 Qızıl Qayda":
