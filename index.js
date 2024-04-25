@@ -19,11 +19,18 @@ const myapp = express();
 
 myapp.use(express.json());
 myapp.use(helmet());
-myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 myapp.use(morgan("common"));
 myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
 myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-myapp.use(cors());
+
+// CORS ayarları
+const corsOptions = {
+  origin: '*', // Herhangi bir kökten gelen istekleri kabul et
+  methods: 'GET,PUT,POST,DELETE', // İzin verilen HTTP yöntemleri
+  allowedHeaders: 'Content-Type,Authorization', // İzin verilen başlıklar
+};
+myapp.use(cors(corsOptions));
+
 myapp.use("/pdfler", Pdfroutes);
 
 // Dosya yolu
