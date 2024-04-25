@@ -27,7 +27,7 @@ myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 
 const corsOptions = {
-  origin: 'https://manatrixacademy.com', // İzin verilen köken
+  origin: 'https://tired-teal-helmet.cyclic.app/', // İzin verilen köken
   methods: 'GET,POST', // İzin verilen HTTP metodları
   allowedHeaders: 'Content-Type,Authorization', // İzin verilen başlıklar
   optionsSuccessStatus: 200 // İsteğin başarılı kabul durumu
