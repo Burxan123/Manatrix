@@ -23,20 +23,7 @@ myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 myapp.use(morgan("common"));
 myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
 myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-
-
-
-const corsOptions = {
-  origin: 'https://tired-teal-helmet.cyclic.app/', // İzin verilen köken
-  methods: 'GET,POST', // İzin verilen HTTP metodları
-  allowedHeaders: 'Content-Type,Authorization', // İzin verilen başlıklar
-  optionsSuccessStatus: 200 // İsteğin başarılı kabul durumu
-};
-
-// CORS middleware'i uygula
-app.use(cors(corsOptions));
-
-
+myapp.use(cors());
 myapp.use("/pdfler", Pdfroutes);
 
 // Dosya yolu
