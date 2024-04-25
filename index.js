@@ -23,7 +23,10 @@ myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 myapp.use(morgan("common"));
 myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
 myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-myapp.use(cors());
+myapp.use(cors({
+  origin: 'https://manatrixacademy.com'
+}));
+
 myapp.use("/pdfler", Pdfroutes);
 
 // Dosya yolu
