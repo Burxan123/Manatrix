@@ -23,9 +23,19 @@ myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 myapp.use(morgan("common"));
 myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
 myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-myapp.use(cors({
-  origin: 'https://manatrixacademy.com'
-}));
+
+
+
+const corsOptions = {
+  origin: 'https://manatrixacademy.com', // İzin verilen köken
+  methods: 'GET,POST', // İzin verilen HTTP metodları
+  allowedHeaders: 'Content-Type,Authorization', // İzin verilen başlıklar
+  optionsSuccessStatus: 200 // İsteğin başarılı kabul durumu
+};
+
+// CORS middleware'i uygula
+app.use(cors(corsOptions));
+
 
 myapp.use("/pdfler", Pdfroutes);
 
