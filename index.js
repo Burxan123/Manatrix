@@ -122,7 +122,7 @@ async function sendEmail(email, category, pdfFiles,name,surname) {
   }
 }
 
-const PORT = process.env.PORT || 6600;
+const PORT = process.env.PORT || 8800;
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
