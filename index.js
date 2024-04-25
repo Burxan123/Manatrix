@@ -17,6 +17,12 @@ dotenv.config();
 
 const myapp = express();
 
+// CORS başlığını ekleyen middleware
+myapp.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://manatrixacademy.com");
+  next();
+});
+
 myapp.use(express.json());
 myapp.use(helmet());
 myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
