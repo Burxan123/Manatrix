@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import Pdfroutes from "./routes/pdfroutes.js";
+import KapitalBank from 'kapitalbank'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,18 +20,11 @@ const myapp = express();
 
 myapp.use(express.json());
 myapp.use(helmet());
+myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 myapp.use(morgan("common"));
 myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
 myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-
-// CORS ayarları
-const corsOptions = {
-  origin: '*', // Herhangi bir kökten gelen istekleri kabul et
-  methods: 'GET,PUT,POST,DELETE', // İzin verilen HTTP yöntemleri
-  allowedHeaders: 'Content-Type,Authorization', // İzin verilen başlıklar
-};
-myapp.use(cors(corsOptions));
-
+myapp.use(cors());
 myapp.use("/pdfler", Pdfroutes);
 
 // Dosya yolu
@@ -120,6 +114,15 @@ async function sendEmail(email, category, pdfFiles,name,surname) {
     attachments: attachments,
   };
 
+
+
+
+
+
+
+
+
+
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent: " + info.response);
@@ -128,6 +131,22 @@ async function sendEmail(email, category, pdfFiles,name,surname) {
     throw error;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const PORT = process.env.PORT || 4505;
 mongoose
