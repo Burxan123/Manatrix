@@ -22,8 +22,9 @@ myapp.use(express.json());
 myapp.use(helmet());
 myapp.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 myapp.use(morgan("common"));
-myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
-myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+// myapp.use(bodyParser.json({ limit: "30mb", extended: true }));
+// myapp.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+myapp.use(bodyParser.raw());
 myapp.use(cors());
 myapp.use("/pdfler", Pdfroutes);
 
@@ -31,7 +32,11 @@ myapp.use("/pdfler", Pdfroutes);
 const pdfDirectory = path.join(__dirname, "pdfs");
 
 myapp.get("/", (req, res) => res.send("Welcome to Elmir Sultan's project"));
-myapp.get("/cancel", (req, res) => res.send("test"));
+myapp.post("/cancel", (req, res) => {
+  console.log(req.body);
+  res.setHeader('Content-Type', 'application/html');
+  res.send(req.body);
+});
 myapp.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("Something broke!");
