@@ -31,6 +31,7 @@ myapp.use("/pdfler", Pdfroutes);
 const pdfDirectory = path.join(__dirname, "pdfs");
 
 myapp.get("/", (req, res) => res.send("Welcome to Elmir Sultan's project"));
+myapp.get("/cancel", (req, res) => res.send("test"));
 myapp.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("Something broke!");
